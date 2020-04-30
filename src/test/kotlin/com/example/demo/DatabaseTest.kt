@@ -20,13 +20,16 @@ class DatabaseTest {
         @Container
         val container = KPostgresContainer()
                 .withExposedPorts(5432)
+                .withDatabaseName("test")
+                .withUsername("postgres")
+                .withPassword("postgres")
     }
 
-    inner class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
+    class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
         override fun initialize(applicationContext: ConfigurableApplicationContext) {
             TestPropertyValues.of(
                     "spring.datasource.url=jdbc:postgresql://localhost:${container.firstMappedPort}/test"
-            )
+            ).applyTo(applicationContext.environment)
         }
     }
 
