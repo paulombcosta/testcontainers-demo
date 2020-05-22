@@ -19,6 +19,7 @@ class DatabaseTest {
     companion object {
         @Container
         val container = KPostgresContainer()
+                .withInitScript("add_users.sql")
                 .withExposedPorts(5432)
                 .withDatabaseName("test")
                 .withUsername("postgres")

@@ -16,4 +16,10 @@ class UserRepositoryTest : DatabaseTest() {
         assertEquals(user, userRepository.findById(1).get())
     }
 
+    @Test
+    fun `test user are present`() {
+        assertEquals("Addrianne", userRepository.findById(2).get().firstName)
+        assertEquals("Phoebe", userRepository.findById(3).get().firstName)
+    }
+
 }
