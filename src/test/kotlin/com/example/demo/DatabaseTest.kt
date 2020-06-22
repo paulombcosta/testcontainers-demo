@@ -5,11 +5,11 @@ import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.test.context.ContextConfiguration
-import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.containers.GenericContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 
-class KPostgresContainer: PostgreSQLContainer<KPostgresContainer>()
+class KPostgresContainer: GenericContainer<KPostgresContainer>("demo/testdb:latest")
 
 @Testcontainers
 @SpringBootTest
@@ -19,11 +19,7 @@ class DatabaseTest {
     companion object {
         @Container
         val container = KPostgresContainer()
-                .withInitScript("add_users.sql")
                 .withExposedPorts(5432)
-                .withDatabaseName("test")
-                .withUsername("postgres")
-                .withPassword("postgres")
     }
 
     class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
